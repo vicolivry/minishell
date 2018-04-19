@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   ft_wordcount.c                                   .::    .:/ .      .::   */
+/*   free_ms.c                                        .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/01/03 12:06:48 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/17 17:37:26 by volivry     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/04/12 14:28:03 by volivry      #+#   ##    ##    #+#       */
+/*   Updated: 2018/04/12 15:06:41 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./includes/minishell.h"
 
-size_t	ft_wordcount(const char *s, char c)
+void	free_tab(char **tofree)
 {
-	size_t	result;
-	int		i;
+	int	i;
 
-	result = 0;
 	i = 0;
-	while (s[i])
+	while (tofree[i])
 	{
-		if ((i == 0 && s[i] != c) || (i > 0 && (s[i] != c && s[i - 1] == c)))
-			result++;
+
+		if (tofree[i])
+			free(tofree[i]);
 		i++;
 	}
-	return (result);
+	if (tofree)
+		free(tofree);
 }

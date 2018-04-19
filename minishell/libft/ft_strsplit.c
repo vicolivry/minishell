@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/01/03 12:04:15 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/11 19:04:02 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/17 14:10:44 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,7 +38,7 @@ char	**ft_strsplit(char const *s, char c)
 	j = 0;
 	while (j < count && s[i])
 	{
-		if ((i == 0 && s[i] != c) || (i > 1 && (s[i] != c && s[i - 1] == c)))
+		if ((i == 0 && s[i] != c) || (i > 0 && (s[i] != c && s[i - 1] == c)))
 		{
 			output[j] = ft_strsub(s, i, word_length(s + i, c));
 			j++;

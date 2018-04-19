@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   ft_wordcount.c                                   .::    .:/ .      .::   */
+/*   fork_ms.c                                        .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/01/03 12:06:48 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/17 17:37:26 by volivry     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/04/11 13:14:12 by volivry      #+#   ##    ##    #+#       */
+/*   Updated: 2018/04/19 17:47:39 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/minishell.h"
 
-size_t	ft_wordcount(const char *s, char c)
+int			fork_ms(char **args, char **pathes, char **env)
 {
-	size_t	result;
-	int		i;
+	pid_t	pid;
 
-	result = 0;
-	i = 0;
-	while (s[i])
-	{
-		if ((i == 0 && s[i] != c) || (i > 0 && (s[i] != c && s[i - 1] == c)))
-			result++;
-		i++;
-	}
-	return (result);
+	pid = fork();
+	if (pid == -1) //ERROR
+		return (-1);
+	else if (pid == 0) //In the Child process
+		launch_process(args, pathes, env);
+	else if (pid > 0) // In the Parent process
+		wait(NULL);
+	return (0);
 }
