@@ -6,26 +6,27 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/19 17:24:10 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/19 17:50:18 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/20 18:40:54 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void env_ms(char **my_env)
+static int env_ms(t_list *my_env)
 {
-	int	i;
+	t_list	*tmp;
 
-	i = 0;
-	while (my_env[i + 1])
+	tmp = my_env;
+	while (tmp->next)
 	{
-		ft_printf("%s\n", my_env[i]);
-		i++;
+		ft_printf("%s\n", tmp->content);
+		tmp = tmp->next;
 	}
+	return (1);
 }
 
-static void echo_ms(char **args)
+static int echo_ms(char **args)
 {
 	int	i;
 
@@ -36,16 +37,84 @@ static void echo_ms(char **args)
 		i++;
 	}
 	ft_putchar('\n');
+	return (1);
 }
 
-void	builtin_ms(char **env, char **args)
+static int	setenv_ms(char **args, t_list **my_env)
 {
-	char	**my_env;
+	t_list	*tmp;
+	char	*str;
 
-	my_env = get_env(env);
+	tmp = *my_env;
+	if (!args[1])
+		env_ms(*my_env);
+	else if (args[1] && !args[2])
+	{
+		if (ft_strchr(args[1], '='))
+		{
+			ft_putendl("setenv: character '=' is forbidden in the arguments");
+			return (1);
+		}
+		str = ft_strjoin(args[1], "=");
+		while (tmp->next && !ft_strstr(tmp->content, str))
+			tmp = tmp->next;
+		if (ft_strstr(tmp->content, str))
+			ft_memdel((void**)&tmp->content);
+		else
+			tmp->next = ft_lstnew(NULL, 0);
+		tmp->content = ft_strdup(str);
+		ft_strdel(&str);
+	}
+	else if (args[1] && args[2] && !args[3])
+	{
+		if (ft_strchr(args[1], '=') || ft_strchr(args[2], '='))
+		{
+			ft_putendl("setenv: character '=' is forbidden in the arguments");
+			return (1);
+		}
+		str = ft_strjoin(args[1], "=");
+		while (tmp->next && !ft_strstr(tmp->content, str))
+			tmp = tmp->next;
+		if (ft_strstr(tmp->content, str))
+			ft_memdel((void**)&tmp->content);
+		else
+			tmp->next = ft_lstnew(NULL, 0);
+		str = ft_strjoin(str, args[2]);
+		tmp->content = ft_strdup(str);
+		ft_strdel(&str);
+	}
+	else if (args[3])
+		ft_putendl("setenv: too many arguments (expected two)");
+	return (1);
+}
+
+static int	unsetenv_ms(char **args, t_list **my_env)
+{
+	t_list	*tmp;
+	char	*str;
+
+	tmp = *my_env;
+	if (!args[1])
+		return (1);
+	if (args[1] && !args[2])
+	{
+		str = ft_strjoin(args[1], "=");
+		while (tmp->next && !ft_strstr(tmp->content, str))
+			tmp = tmp->next;
+		if (ft_strstr(tmp->content, str))
+			ft_lstdel()
+	}
+}
+
+int	builtin_ms(t_list *my_env, char **args)
+{
 	if (!ft_strcmp(args[0], "env"))
-		env_ms(my_env);
-	if (!ft_strcmp(args[0], "echo"))
-		echo_ms(args);
-	exit(0);
+		return (env_ms(my_env));
+	else if (!ft_strcmp(args[0], "echo"))
+		return (echo_ms(args));
+	else if (!ft_strcmp(args[0], "setenv"))
+		return (setenv_ms(args, &my_env));
+	else if (!ft_strcmp(args[0], "unsetenv"))
+		return (unsetenv_ms(args, &my_env));
+	return (0);
 }

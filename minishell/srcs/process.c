@@ -6,34 +6,34 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/17 11:00:04 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/19 17:49:00 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/20 17:23:54 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**get_env(char **env)
+t_list	*get_env(char **env)
 {
-	char	**my_env;
+	t_list	*my_env;
+	t_list	*tmp;
 	int		i;
 
 	i = 0;
-	while (env[i])
-		i++;
-	if (!(my_env = (char**)malloc(sizeof(char*) * i)))
-		return (NULL);
-	i = 0;
+	my_env = ft_lstnew(NULL, 0);
+	tmp = my_env;
 	while (env[i + 1])
 	{
-		my_env[i] = ft_strdup(env[i]);
+		tmp->content = ft_strdup(env[i]);
+		tmp->content_size = ft_strlen(env[i]);
+		tmp->next = ft_lstnew(NULL, 0);
+		tmp = tmp->next;
 		i++;
 	}
-	my_env[i] = NULL;
 	return (my_env);
 }
 
-int	launch_process(char **args, char **pathes, char **env)
+int	launch_process(char **args, char **pathes)
 {
 	int		i;
 	int		j;
@@ -42,7 +42,6 @@ int	launch_process(char **args, char **pathes, char **env)
 
 	i = 0;
 	tab = pathes;
-	builtin_ms(env, args);
 	while (tab[i])
 	{
 		j = 0;

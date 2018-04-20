@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   ft_lstdelone.c                                   .::    .:/ .      .::   */
+/*   utils_ms.c                                       .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/01/03 11:38:44 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/20 18:40:46 by volivry     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/04/20 17:40:38 by volivry      #+#   ##    ##    #+#       */
+/*   Updated: 2018/04/20 18:00:51 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdlib.h>
+#include "../includes/minishell.h"
 
-void	ft_lstdelone(t_list **alst, void (*del)(void *, size_t))
+void	to_upper_str(char **str)
 {
-	del((*alst)->content, (*alst)->content_size);
-	free(*alst);
-	*alst = NULL;
+	int	i;
+
+	i = 0;
+	while (*str[i] != '\0')
+	{
+		if (ft_islower(*str[i]))
+			*str[i] -= 32;
+		i++;
+	}
 }

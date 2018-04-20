@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 13:15:55 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/19 17:43:52 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/20 16:01:10 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -47,9 +47,11 @@ int main(int argc, const char **argv, char **env)
 	char	*usr_name;
 	char	**pathes;
 	char	**args;
+	t_list	*my_env;
 	int		close;
 
 	close = 0;
+	my_env = get_env(env);
 	usr_name = get_user();
 	pathes = get_pathes(env);
 	args = NULL;
@@ -67,7 +69,7 @@ int main(int argc, const char **argv, char **env)
 		}
 		if (!ft_strcmp(argv[0], "exit"))
 				exit(0);
-		fork_ms(args, pathes, env);
+		fork_ms(args, pathes, my_env);
 		/*	if (args && ft_strcmp(argv[0], "exit"))
 			free_tab(args);
 			free((void*)*argv);*/
