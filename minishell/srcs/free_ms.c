@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/12 14:28:03 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/12 15:06:41 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/23 18:04:35 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,7 +20,6 @@ void	free_tab(char **tofree)
 	i = 0;
 	while (tofree[i])
 	{
-
 		if (tofree[i])
 			free(tofree[i]);
 		i++;

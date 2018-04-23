@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/17 11:00:04 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/20 17:23:54 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/23 18:41:17 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -33,7 +33,7 @@ t_list	*get_env(char **env)
 	return (my_env);
 }
 
-int	launch_process(char **args, char **pathes)
+int		launch_process(char **args, char **pathes)
 {
 	int		i;
 	int		j;
@@ -52,15 +52,11 @@ int	launch_process(char **args, char **pathes)
 	}
 	i = 0;
 	cmd = ft_strjoin(tab[i], args[0]);
-
-	while ((execve(cmd, args, pathes) == -1)
-			&& pathes[i])
+	while ((execve(cmd, args, pathes) == -1) && pathes[i])
 	{
 		i++;
-//		ft_strdel(&cmd);
 		cmd = ft_strjoin(tab[i], args[0]);
 	}
-//	ft_strdel(&cmd);
 	if (!pathes[i] && args[0])
 	{
 		ft_printf("minishell: command not found: %s\n", args[0]);

@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/11 13:14:12 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/20 16:00:32 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/23 18:06:18 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,14 +17,15 @@ int			fork_ms(char **args, char **pathes, t_list *my_env)
 {
 	pid_t	pid;
 
-	if (builtin_ms(my_env, args) == 1)
+	pid = 0;
+	if (builtin_ms(my_env, args, pathes) == 1)
 		return (0);
 	pid = fork();
-	if (pid == -1) //ERROR
+	if (pid == -1)
 		return (-1);
-	else if (pid == 0) //In the Child process
+	else if (pid == 0)
 		launch_process(args, pathes);
-	else if (pid > 0) // In the Parent process
+	else if (pid > 0)
 		wait(NULL);
 	return (0);
 }

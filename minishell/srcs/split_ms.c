@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/17 11:53:32 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/20 12:16:12 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/23 18:46:20 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -31,7 +31,7 @@ static void		toggle(int *close)
 		(*close = 0);
 }
 
-static size_t	ft_wordcount_ms(char* s, char sp, char qte)
+static size_t	ft_wordcount_ms(char *s, char sp, char qte)
 {
 	size_t	res;
 	int		i;
@@ -55,7 +55,7 @@ static size_t	ft_wordcount_ms(char* s, char sp, char qte)
 	return (res);
 }
 
-char	**end_quote(char **args, char *s, int *close)
+char			**end_quote(char **args, char *s, int *close)
 {
 	int		i;
 	int		j;
@@ -72,11 +72,10 @@ char	**end_quote(char **args, char *s, int *close)
 	if (s[i] == '"')
 		toggle(close);
 	args[j] = ft_strjoin(args[j], tmp);
-	ft_printf("tmp : %s\nargs[j] : %s\n", tmp, args[j]);
 	return (args);
 }
 
-char	**get_args(char *s, int *close)
+char			**get_args(char *s, int *close)
 {
 	char	**args;
 	size_t	count;
@@ -116,13 +115,6 @@ char	**get_args(char *s, int *close)
 		}
 		i++;
 	}
-
 	args[j] = NULL;
-/*	j = 0;
-	while (args[j])
-	{
-		ft_printf("args[%d]: %s\n", j, args[j]);
-		j++;
-	}*/
 	return (args);
 }
