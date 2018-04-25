@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/19 17:24:10 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/23 18:53:40 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/25 19:07:00 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,6 +34,8 @@ static int	echo_ms(char **args)
 	while (args[i])
 	{
 		ft_printf("%s", args[i]);
+		if (args[i + 1])
+			ft_putchar(' ');
 		i++;
 	}
 	ft_putchar('\n');
@@ -127,7 +129,7 @@ static int	cd_ms(char **args)
 	str = NULL;
 	if (!args[1])
 	{
-		chdir("/~");
+		chdir("/Users/volivry");
 		return (1);
 	}
 	str = ft_strdup(args[1]);

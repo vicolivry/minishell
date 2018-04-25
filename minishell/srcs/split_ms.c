@@ -6,115 +6,87 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/17 11:53:32 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/23 18:46:20 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/25 19:03:59 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static size_t	word_length(char const *s, char c)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i] != c && s[i])
-		i++;
-	return (i);
-}
-
-static void		toggle(int *close)
-{
-	if (!*close)
-		*close = 1;
-	else
-		(*close = 0);
-}
-
-static size_t	ft_wordcount_ms(char *s, char sp, char qte)
+size_t	ft_wordcount_ms(char *s, int len)
 {
 	size_t	res;
 	int		i;
 
-	res = 0;
 	i = 0;
-	while (s[i])
+	res = 0;
+	while (i <= len)
 	{
-		if (s[i] == qte)
-		{
-			i++;
-			while (s[i] && s[i] != qte)
-				i++;
-			res++;
-		}
-		else if ((i == 0 && s[i] != sp) || (i > 0 && s[i] != sp &&
-					(s[i - 1] == sp || s[i - 1] == qte)))
+		if (!s[i] && s[i - 1])
 			res++;
 		i++;
 	}
 	return (res);
 }
 
-char			**end_quote(char **args, char *s, int *close)
+static char		*space_to_null(char *s, int *quoted, int len)
 {
-	int		i;
-	int		j;
-	char	*tmp;
+	int	i;
 
 	i = 0;
-	j = 0;
-	tmp = NULL;
-	while (args[j + 1])
-		j++;
-	while (s[i] && s[i] != '"')
-		i++;
-	tmp = ft_strsub(s, 0, i);
-	if (s[i] == '"')
-		toggle(close);
-	args[j] = ft_strjoin(args[j], tmp);
-	return (args);
-}
-
-char			**get_args(char *s, int *close)
-{
-	char	**args;
-	size_t	count;
-	size_t	i;
-	size_t	j;
-
-	args = NULL;
-	count = ft_wordcount_ms(s, ' ', '"');
-	if (!s || !(args = (char **)malloc(sizeof(char*) * (count + 1))))
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (j < count && s[i])
+	while (i <= len)
 	{
-		if (s[i] == '"')
-		{
-			i++;
-			toggle(close);
-			args[j] = ft_strsub(s, i, word_length(s + i, '"'));
-			while (s[i] && s[i] != '"')
-				i++;
-			if (s[i] == '"')
-				toggle(close);
-			j++;
-		}
-		else if ((i == 0 && s[i] != ' ') || (i > 0 && s[i] != ' ' &&
-					(s[i - 1] == ' ' || s[i - 1] == '"')))
-		{
-			if (word_length(s + i, ' ') <= word_length(s + i, '"'))
-				args[j] = ft_strsub(s, i, word_length(s + i, ' '));
-			else
-			{
-				args[j] = ft_strsub(s, i, word_length(s + i, '"'));
-				i++;
-			}
-			j++;
-		}
+		if ((i == 0 && s[i] == '"') || (i > 0 && s[i] == '"' &&
+					s[i - 1] != '\\'))
+			toggle(quoted);
+		if (s[i] == ' ' && !*quoted && s[i - 1] != '\\')
+			s[i] = 0;
 		i++;
 	}
-	args[j] = NULL;
+	return (s);
+}
+
+static char	*trim_quote(char *arg)
+{
+	int		i;
+	int		len;
+	char	**splitted;
+
+	i = 0;
+	splitted = NULL;
+	len = ft_strlen(arg);
+	while (i <= len)
+	{
+		if (arg[i] == '"')
+			arg[i] = 0;
+		i++;
+	}
+	splitted = split_nulls(arg, len);
+	ft_strdel(&arg);
+	arg = arr_to_str(splitted);
+	return (arg);
+}
+
+char			**get_args(char *s, int *quoted, char **argv)
+{
+	char	**args;
+	size_t	i;
+	size_t	len;
+
+	args = NULL;
+	len = ft_strlen(s);
+	s = space_to_null(s, quoted, len);
+	while (*quoted)
+	{
+		ft_putstr("dquote>");
+		get_next_line(0, argv);
+		s = end_quote(s, *argv, quoted);
+		len = ft_strlen(s);
+		s = space_to_null(s, quoted, len);
+	}
+	args = split_nulls(s, len);
+	i = -1;
+	while (args[++i])
+		args[i] = trim_quote(args[i]);
 	return (args);
 }
