@@ -6,7 +6,7 @@
 #    By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/03/15 17:31:08 by volivry      #+#   ##    ##    #+#        #
-#    Updated: 2018/04/24 17:25:24 by volivry     ###    #+. /#+    ###.fr      #
+#    Updated: 2018/04/26 13:39:37 by volivry     ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -20,8 +20,8 @@ SRCDIR = srcs
 OBJDIR = objs
 INCDIR = includes libft
 
-SRC =  main.c fork_ms.c free_ms.c process.c split_ms.c builtin_ms.c \
-	   utils_ms.c
+SRC =  main.c fork_ms.c free_ms.c process.c get_args_ms.c builtin_ms.c \
+	   utils_ms.c conv_str.c
 
 SRCS = $(addprefix $(SRCDIR)/, $(SRC))
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))

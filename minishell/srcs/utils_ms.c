@@ -6,17 +6,25 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/20 17:40:38 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/25 19:05:00 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/26 18:12:40 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		toggle(int *close)
+void		single_toggle(int *close)
 {
 	if (!*close)
 		*close = 1;
+	else
+		(*close = 0);
+}
+
+void		double_toggle(int *close)
+{
+	if (!*close)
+		*close = 2;
 	else
 		(*close = 0);
 }
@@ -30,8 +38,10 @@ char		*end_quote(char *s, char *arg, int *quoted)
 	i = 0;
 	while (arg[i])
 	{
-		if (arg[i] == '"')
-			toggle(quoted);
+		if (arg[i] == '"' && (*quoted == 2 || !*quoted))
+			double_toggle(quoted);
+		else if (arg[i] == 39 && (*quoted == 1 || !*quoted))
+			single_toggle(quoted);
 		i++;
 	}
 	tmp = ft_strjoin(s, arg);

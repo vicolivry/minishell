@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 13:15:55 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/25 15:32:06 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/04/26 17:53:00 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -43,27 +43,20 @@ int		main(int argc, const char **argv, char **env)
 	char	**pathes;
 	char	**args;
 	t_list	*my_env;
-	int		quoted;
 
-	quoted = 0;
 	my_env = get_env(env);
 	pathes = get_pathes(env);
 	args = NULL;
 	while ("infinite loop")
 	{
-		ft_putstr("$>");
+		ft_putstr("\033[35m$>\033[0m");
 		get_next_line(0, (char**)argv);
 		if (*argv)
 		{
-			args = get_args((char*)*argv, &quoted, (char**)argv);
+			args = get_args((char*)*argv, (char**)argv);
 			free((void*)*argv);
 		}
-/*		while (quoted)
-		{
-			ft_printf("dquote>");
-			get_next_line(0, (char**)argv);
-			args = end_quote(args, (char*)*argv, &quoted);
-		}*/
+		ft_printf("arg b4 process: %s\n", args[0]);
 		launch_process(args, pathes, my_env);
 		if (args)
 			free_tab(args);
