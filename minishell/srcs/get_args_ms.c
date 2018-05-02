@@ -6,20 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/26 18:13:52 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/26 18:13:56 by volivry     ###    #+. /#+    ###.fr     */
-/*                                                         /                  */
-/*                                                        /                   */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                          LE - /            */
-/*                                                              /             */
-/*   split_ms.c                                       .::    .:/ .      .::   */
-/*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
-/*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/04/17 11:53:32 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/26 18:13:31 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/02 18:07:33 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -49,12 +36,7 @@ static void		toggling(char *s, int *quoted, int len)
 	i = 0;
 	while (i <= len)
 	{
-		if (((i == 0 && s[i] == '"') || (i > 0 && s[i] == '"' &&
-					s[i - 1] != '\\')) && *quoted != 1)
-			double_toggle(quoted);
-		if (((i == 0 && s[i] == 39) || (i > 0 && s[i] == 39 &&
-					s[i - 1] != '\\')) && *quoted != 2)
-			single_toggle(quoted);
+		toggle_ms(quoted, i, s);
 		i++;
 	}
 }
@@ -66,15 +48,29 @@ static char		*space_to_null(char *s, int *quoted, int len)
 	i = 0;
 	while (i <= len)
 	{
-		if ((i == 0 && s[i] == '"') || (i > 0 && s[i] == '"' &&
-					s[i - 1] != '\\'))
-			double_toggle(quoted);
-		if ((i == 0 && s[i] == 39) || (i > 0 && s[i] == 39 &&
-					s[i - 1] != '\\'))
-			single_toggle(quoted);
+		toggle_ms(quoted, i, s);
 		if (s[i] == ' ' && !*quoted && s[i - 1] != '\\')
 			s[i] = 0;
 		i++;
+	}
+	return (s);
+}
+
+static char		*slashed_arg(char *s, size_t len, char **argv)
+{
+	char	*tmp;
+
+	while (s[len - 1] == '\\')
+	{
+		tmp = NULL;
+		ft_putstr("\033[35m> \033[0m");
+		get_next_line(0, argv);
+		s[len - 1] = 0;
+		tmp = ft_strjoin(s, *argv);
+		ft_strdel(&s);
+		s = ft_strdup(tmp);
+		len = ft_strlen(s);
+		ft_strdel(&tmp);
 	}
 	return (s);
 }
@@ -92,19 +88,18 @@ char			**get_args(char *s, char **argv)
 	toggling(s, &quoted, len);
 	while (quoted)
 	{
-		quoted == 1 ? ft_putstr("\033[35mquote>\033[0m") :
-			ft_putstr("\033[35mdquote>\033[0m");
+		quoted == 1 ? ft_putstr("\033[35mquote> \033[0m") :
+			ft_putstr("\033[35mdquote> \033[0m");
 		get_next_line(0, argv);
 		s = end_quote(s, *argv, &quoted);
 		len = ft_strlen(s);
 	}
+	s = slashed_arg(s, len, argv);
+	len = ft_strlen(s);
 	s = space_to_null(s, &quoted, len);
 	args = split_nulls(s, len);
 	i = -1;
 	while (args[++i])
-	{
-		ft_printf("args[%d] : %s\n", i, args[i]);
-		args[i] = conv_str(args[i], &quoted);
-	}
+		args[i] = conv_str(args[i], &quoted, args);
 	return (args);
 }

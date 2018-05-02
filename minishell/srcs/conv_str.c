@@ -1,69 +1,54 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   utils_ms2.c                                      .::    .:/ .      .::   */
+/*   conv_str.c                                       .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/04/26 10:43:55 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/26 17:35:54 by volivry     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/05/02 11:42:39 by volivry      #+#   ##    ##    #+#       */
+/*   Updated: 2018/05/02 17:06:02 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*trim_double_quote(char *arg, int *quoted, int len)
+static char	*convert_ms(char *s, int *quoted, int len, char *cmd)
 {
 	int		i;
-	char	**splitted;
+	char	**tab;
 
 	i = 0;
-	splitted = NULL;
+	tab = NULL;
+	*quoted = 0;
 	while (i <= len)
 	{
-		if (arg[i] == 39 || !arg[i])
-			single_toggle(quoted);
-		if (arg[i] == '"' && !*quoted)
-			arg[i] = 0;
+		toggle_ms(quoted, i, s);
+		if (!*quoted && s[i] == '\\')
+			s[i] = 0;
+		else if (*quoted && s[i] == '\\' && !ft_strcmp(cmd, "echo"))
+			s = back_slashes_echo(s, i);
 		i++;
 	}
-	splitted = split_nulls(arg, len);
-	ft_strdel(&arg);
-	arg = arr_to_str(splitted);
-	free_tab(splitted);
-	return (arg);
+	tab = split_nulls(s, len);
+	ft_strdel(&s);
+	s = arr_to_str(tab);
+	if (tab)
+		free_tab(tab);
+	return (s);
 }
 
-
-char	*trim_single_quote(char *arg, int *quoted, int len)
-{
-	int		i;
-
-	i = 0;
-	while (i <= len)
-	{
-		if (arg[i] == '"')
-			double_toggle(quoted);
-		if (arg[i] == 39 && !*quoted)
-			arg[i] = 0;
-		i++;
-	}
-	return (arg);
-}
-
-char	*conv_str(char *s, int *quoted)
+char		*conv_str(char *s, int *quoted, char **args)
 {
 	int	len;
 
 	*quoted = 0;
 	len = ft_strlen(s);
-//	conv_str(s, quoted);
-//	ft_printf("IN CONV, before trim single: %s\n", s);
+	s = convert_ms(s, quoted, len, args[0]);
+	len = ft_strlen(s);
+	*quoted = 0;
 	s = trim_single_quote(s, quoted, len);
-//	ft_printf("IN CONV, after trim single: %s\n", s);
+	*quoted = 0;
 	s = trim_double_quote(s, quoted, len);
-	ft_printf("IN CONV, after: %s\n", s);
-
 	return (s);
 }

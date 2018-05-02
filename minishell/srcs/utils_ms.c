@@ -6,14 +6,14 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/20 17:40:38 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/26 18:12:40 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/02 17:35:43 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		single_toggle(int *close)
+void	single_toggle(int *close)
 {
 	if (!*close)
 		*close = 1;
@@ -21,7 +21,7 @@ void		single_toggle(int *close)
 		(*close = 0);
 }
 
-void		double_toggle(int *close)
+void	double_toggle(int *close)
 {
 	if (!*close)
 		*close = 2;
@@ -29,7 +29,7 @@ void		double_toggle(int *close)
 		(*close = 0);
 }
 
-char		*end_quote(char *s, char *arg, int *quoted)
+char	*end_quote(char *s, char *arg, int *quoted)
 {
 	int		i;
 	char	*tmp;
@@ -51,27 +51,7 @@ char		*end_quote(char *s, char *arg, int *quoted)
 	return (s);
 }
 
-t_list	*get_env(char **env)
-{
-	t_list	*my_env;
-	t_list	*tmp;
-	int		i;
-
-	i = 0;
-	my_env = ft_lstnew(NULL, 0);
-	tmp = my_env;
-	while (env[i + 1])
-	{
-		tmp->content = ft_strdup(env[i]);
-		tmp->content_size = ft_strlen(env[i]);
-		tmp->next = ft_lstnew(NULL, 0);
-		tmp = tmp->next;
-		i++;
-	}
-	return (my_env);
-}
-
-char		*arr_to_str(char **arr)
+char	*arr_to_str(char **arr)
 {
 	int		i;
 	int		j;
@@ -99,31 +79,12 @@ char		*arr_to_str(char **arr)
 	return (str);
 }
 
-char		**split_nulls(char *s, int len)
+void	toggle_ms(int *quoted, int i, char *s)
 {
-	char	**args;
-	int		count;
-	int		i;
-	int		j;
-
-	args = NULL;
-	i = 0;
-	j = 0;
-	count = ft_wordcount_ms(s, len);
-	if (!s || !(args = (char **)malloc(sizeof(char*) * (count + 1))))
-		return (NULL);
-	while (i <= len)
-	{
-		if (s[i])
-		{
-			args[j] = ft_strsub(s, i, ft_strlen(s + i));
-			i += ft_strlen(s + i) + 1;
-			*s = *s + i;
-			j++;
-		}
-		else
-			i++;
-	}
-	args[j] = NULL;
-	return (args);
+	if (((i == 0 && s[i] == '"') || (i > 0 && s[i] == '"' &&
+					s[i - 1] != '\\')) && *quoted != 1)
+		double_toggle(quoted);
+	if (((i == 0 && s[i] == 39) || (i > 0 && s[i] == 39 &&
+					s[i - 1] != '\\')) && *quoted != 2)
+		single_toggle(quoted);
 }

@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/07 15:21:13 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/26 14:56:26 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/02 16:43:56 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,6 +20,8 @@
 # include <pwd.h>
 # include <signal.h>
 # include <dirent.h>
+
+# define BCK_SLASHES "tnrv"
 
 int		fork_ms(char *cmd, char **args);
 int		launch_process(char **args, char **pathes, t_list *my_env);
@@ -35,6 +37,8 @@ char	**split_nulls(char *s, int len);
 size_t	ft_wordcount_ms(char *s, int len);
 char	*trim_double_quote(char *arg, int *quoted, int len);
 char	*trim_single_quote(char *arg, int *quoted, int len);
-char	*conv_str(char *s, int *quoted);
+char	*conv_str(char *s, int *quoted, char **args);
+void	toggle_ms(int *quoted, int i, char *s);
+char	*back_slashes_echo(char *s, int i);
 
 #endif
