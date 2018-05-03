@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/01/03 10:35:07 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/10 18:29:38 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/03 17:48:14 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -134,6 +134,9 @@ void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
+t_list				*lst_dup(t_list *lst1);
+t_list				*tab_to_lst(char **tab);
+char				**lst_to_tab(t_list *lst);
 
 t_format			ft_parse(const char **str, va_list *va);
 intmax_t			d_size(va_list *ap, t_format *fmt);
@@ -157,5 +160,6 @@ void				ft_type_ws(t_format *fmt, va_list *va, int *ret);
 void				ft_init_format(t_format *struc);
 int					lenfinder(t_format *fmt, wchar_t *str);
 int					get_next_line(const int fd, char **line);
+char				*str_append(char *s1, char *s2);
 
 #endif

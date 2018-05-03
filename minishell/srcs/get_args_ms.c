@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/26 18:13:52 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/02 18:07:33 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/03 16:17:11 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -58,19 +58,13 @@ static char		*space_to_null(char *s, int *quoted, int len)
 
 static char		*slashed_arg(char *s, size_t len, char **argv)
 {
-	char	*tmp;
-
 	while (s[len - 1] == '\\')
 	{
-		tmp = NULL;
 		ft_putstr("\033[35m> \033[0m");
 		get_next_line(0, argv);
 		s[len - 1] = 0;
-		tmp = ft_strjoin(s, *argv);
-		ft_strdel(&s);
-		s = ft_strdup(tmp);
+		s = str_append(s, *argv);
 		len = ft_strlen(s);
-		ft_strdel(&tmp);
 	}
 	return (s);
 }

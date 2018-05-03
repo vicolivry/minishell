@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 13:15:55 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/02 17:25:47 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/03 17:39:57 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,6 +22,8 @@ char	**get_pathes(char **env)
 
 	i = 0;
 	pathes = NULL;
+	if (!env[0])
+		return (NULL);
 	while (!ft_strstr(env[i], "PATH") && env[i + 1])
 		i++;
 	str = ft_strchr(env[i], '=') + 1;
@@ -38,33 +40,13 @@ char	**get_pathes(char **env)
 	return (pathes);
 }
 
-t_list	*get_env(char **env)
-{
-	t_list	*my_env;
-	t_list	*tmp;
-	int		i;
-
-	i = 0;
-	my_env = ft_lstnew(NULL, 0);
-	tmp = my_env;
-	while (env[i + 1])
-	{
-		tmp->content = ft_strdup(env[i]);
-		tmp->content_size = ft_strlen(env[i]);
-		tmp->next = ft_lstnew(NULL, 0);
-		tmp = tmp->next;
-		i++;
-	}
-	return (my_env);
-}
-
 int		main(int argc, const char **argv, char **env)
 {
 	char	**pathes;
 	char	**args;
 	t_list	*my_env;
 
-	my_env = get_env(env);
+	my_env = tab_to_lst(env);
 	pathes = get_pathes(env);
 	args = NULL;
 	while ("infinite loop")
@@ -76,7 +58,8 @@ int		main(int argc, const char **argv, char **env)
 			args = get_args((char*)*argv, (char**)argv);
 			free((void*)*argv);
 		}
-		launch_process(args, pathes, my_env);
+		if (builtin_ms(my_env, args, pathes) == 0)
+			launch_process(args, pathes, my_env);
 		if (args)
 			free_tab(args);
 	}

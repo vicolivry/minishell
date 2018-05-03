@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/20 17:40:38 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/02 17:35:43 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/03 16:54:12 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,9 +32,7 @@ void	double_toggle(int *close)
 char	*end_quote(char *s, char *arg, int *quoted)
 {
 	int		i;
-	char	*tmp;
 
-	tmp = NULL;
 	i = 0;
 	while (arg[i])
 	{
@@ -44,10 +42,7 @@ char	*end_quote(char *s, char *arg, int *quoted)
 			single_toggle(quoted);
 		i++;
 	}
-	tmp = ft_strjoin(s, arg);
-	ft_strdel(&s);
-	s = ft_strdup(tmp);
-	ft_strdel(&tmp);
+	s = str_append(s, arg);
 	return (s);
 }
 
@@ -87,4 +82,23 @@ void	toggle_ms(int *quoted, int i, char *s)
 	if (((i == 0 && s[i] == 39) || (i > 0 && s[i] == 39 &&
 					s[i - 1] != '\\')) && *quoted != 2)
 		single_toggle(quoted);
+}
+
+t_list	*lst_dup(t_list *lst1)
+{
+	t_list	*tmp;
+	t_list	*tmp2;
+	t_list	*lst2;
+
+	lst2 = ft_lstnew(NULL, 0);
+	tmp = lst1;
+	tmp2 = lst2;
+	while (tmp->next)
+	{
+		tmp2->content = ft_strdup(tmp->content);
+		tmp = tmp->next;
+		tmp2->next = ft_lstnew(NULL, 0);
+		tmp2 = tmp2->next;
+	}
+	return (lst2);
 }
