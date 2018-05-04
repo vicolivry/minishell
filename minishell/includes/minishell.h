@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/07 15:21:13 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/02 16:43:56 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/04 17:28:33 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,7 +21,7 @@
 # include <signal.h>
 # include <dirent.h>
 
-# define BCK_SLASHES "tnrv"
+# define BCK_SLASHES "sbtnrv\\"
 
 int		fork_ms(char *cmd, char **args);
 int		launch_process(char **args, char **pathes, t_list *my_env);

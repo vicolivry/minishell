@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/02 11:42:21 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/03 17:11:31 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/04 13:12:45 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,18 +18,19 @@ static int	verif_path(struct dirent *dp, char **pathes, char **args, int i)
 	char	*cmd;
 
 	cmd = NULL;
-	if (!(ft_strcmp(args[0], dp->d_name)))
-	{
-		cmd = ft_strjoin(pathes[i], args[0]);
-		if (access(cmd, X_OK) == -1)
+	if (args)
+		if (!(ft_strcmp(args[0], dp->d_name)))
 		{
-			ft_printf("minishell: permission denied: %s\n", args[0]);
-			ft_strdel(&cmd);
+			cmd = ft_strjoin(pathes[i], args[0]);
+			if (access(cmd, X_OK) == -1)
+			{
+				ft_printf("minishell: permission denied: %s\n", args[0]);
+				ft_strdel(&cmd);
+				return (1);
+			}
+			fork_ms(cmd, args);
 			return (1);
 		}
-		fork_ms(cmd, args);
-		return (1);
-	}
 	return (0);
 }
 
@@ -40,6 +41,8 @@ int			launch_process(char **args, char **pathes, t_list *my_env)
 	int				i;
 
 	i = 0;
+	if (builtin_ms(my_env, args, pathes) == 1)
+		return (0);
 	if (pathes)
 		while (pathes[i])
 		{

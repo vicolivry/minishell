@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 13:15:55 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/03 17:39:57 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/04 17:06:00 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,24 +44,30 @@ int		main(int argc, const char **argv, char **env)
 {
 	char	**pathes;
 	char	**args;
+	char	**cmds;
 	t_list	*my_env;
 
 	my_env = tab_to_lst(env);
 	pathes = get_pathes(env);
 	args = NULL;
+	cmds = NULL;
 	while ("infinite loop")
 	{
 		ft_putstr("\033[35m$> \033[0m");
 		get_next_line(0, (char**)argv);
 		if (*argv)
 		{
-			args = get_args((char*)*argv, (char**)argv);
+			cmds = ft_strsplit((char*)*argv, ';');
 			free((void*)*argv);
 		}
-		if (builtin_ms(my_env, args, pathes) == 0)
-			launch_process(args, pathes, my_env);
-		if (args)
-			free_tab(args);
+		while (*cmds)
+		{
+				args = get_args(*cmds, (char**)argv);
+				launch_process(args, pathes, my_env);
+			if (args)
+				free_tab(args);
+			cmds += 1;
+		}
 	}
 	return (0);
 }

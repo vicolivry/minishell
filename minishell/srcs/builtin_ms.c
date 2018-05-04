@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/19 17:24:10 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/03 17:38:14 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/04 15:11:29 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,10 +16,10 @@
 static int	env_ms(char **args, t_list *my_env, char **pathes)
 {
 	t_list	*tmp;
-	t_list	*my_env2;
+	t_list	*arg_lst;
 
+	arg_lst = tab_to_lst(args);
 	tmp = my_env;
-	my_env2 = NULL;
 	if (!args[1])
 		while (tmp->next)
 		{
@@ -28,11 +28,21 @@ static int	env_ms(char **args, t_list *my_env, char **pathes)
 		}
 	else if (!ft_strcmp(args[1], "-i") && !args[2])
 		return (1);
-/*	else if (!ft_strcmp(args[1], "-i") && args[2])
+	else if (!ft_strcmp(args[1], "-i") && args[2])
 	{
-		launch_process()
+		arg_lst = arg_lst->next->next;
+		args = lst_to_tab(arg_lst);
+		launch_process(args, NULL, NULL);
+		free_tab(args);
 	}
-*/
+	else if (args[1])
+	{
+		tmp = arg_lst;
+		arg_lst = arg_lst->next;
+		args = lst_to_tab(arg_lst);
+		launch_process(args, pathes, my_env);
+		free_tab(args);
+	}
 	return (1);
 }
 

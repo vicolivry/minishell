@@ -6,28 +6,13 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/26 18:13:52 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/03 16:17:11 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/04 15:53:23 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-size_t			ft_wordcount_ms(char *s, int len)
-{
-	size_t	res;
-	int		i;
-
-	i = 0;
-	res = 0;
-	while (i <= len)
-	{
-		if (!s[i] && s[i - 1])
-			res++;
-		i++;
-	}
-	return (res);
-}
 
 static void		toggling(char *s, int *quoted, int len)
 {
@@ -69,6 +54,20 @@ static char		*slashed_arg(char *s, size_t len, char **argv)
 	return (s);
 }
 
+static char		*quoted_arg(char *s, size_t len, char **argv, int *quoted)
+{
+	while (*quoted)
+	{
+		*quoted == 1 ? ft_putstr("\033[35mquote> \033[0m") :
+			ft_putstr("\033[35mdquote> \033[0m");
+		get_next_line(0, argv);
+		s = end_quote(s, *argv, quoted);
+		ft_strdel(&*argv);
+		len = ft_strlen(s);
+	}
+	return (s);
+}
+
 char			**get_args(char *s, char **argv)
 {
 	char	**args;
@@ -80,18 +79,12 @@ char			**get_args(char *s, char **argv)
 	args = NULL;
 	len = ft_strlen(s);
 	toggling(s, &quoted, len);
-	while (quoted)
-	{
-		quoted == 1 ? ft_putstr("\033[35mquote> \033[0m") :
-			ft_putstr("\033[35mdquote> \033[0m");
-		get_next_line(0, argv);
-		s = end_quote(s, *argv, &quoted);
-		len = ft_strlen(s);
-	}
+	s = quoted_arg(s, len, argv, &quoted);
 	s = slashed_arg(s, len, argv);
 	len = ft_strlen(s);
 	s = space_to_null(s, &quoted, len);
 	args = split_nulls(s, len);
+//	ft_strdel(&s);
 	i = -1;
 	while (args[++i])
 		args[i] = conv_str(args[i], &quoted, args);

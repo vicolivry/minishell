@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/20 17:40:38 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/03 16:54:12 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/04 16:47:03 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,6 +34,8 @@ char	*end_quote(char *s, char *arg, int *quoted)
 	int		i;
 
 	i = 0;
+	s = str_append(s, "\\");
+	s = str_append(s, "n");
 	while (arg[i])
 	{
 		if (arg[i] == '"' && (*quoted == 2 || !*quoted))
@@ -84,21 +86,18 @@ void	toggle_ms(int *quoted, int i, char *s)
 		single_toggle(quoted);
 }
 
-t_list	*lst_dup(t_list *lst1)
+size_t			ft_wordcount_ms(char *s, int len)
 {
-	t_list	*tmp;
-	t_list	*tmp2;
-	t_list	*lst2;
+	size_t	res;
+	int		i;
 
-	lst2 = ft_lstnew(NULL, 0);
-	tmp = lst1;
-	tmp2 = lst2;
-	while (tmp->next)
+	i = 0;
+	res = 0;
+	while (i <= len)
 	{
-		tmp2->content = ft_strdup(tmp->content);
-		tmp = tmp->next;
-		tmp2->next = ft_lstnew(NULL, 0);
-		tmp2 = tmp2->next;
+		if (!s[i] && s[i - 1])
+			res++;
+		i++;
 	}
-	return (lst2);
+	return (res);
 }
