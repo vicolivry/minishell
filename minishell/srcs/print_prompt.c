@@ -1,44 +1,45 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   free_ms.c                                        .::    .:/ .      .::   */
+/*   print_prompt.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/04/12 14:28:03 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/08 12:05:21 by volivry     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/05/07 10:48:34 by volivry      #+#   ##    ##    #+#       */
+/*   Updated: 2018/05/08 15:52:08 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "./includes/minishell.h"
+#include "../includes/minishell.h"
 
-void	free_tab(char **tofree)
+char	*get_user(void)
 {
-	int	i;
+	uid_t			uid;
+	char			*name;
+	struct passwd	*pw;
 
-	i = 0;
-	while (tofree[i])
-	{
-		if (tofree[i])
-			free(tofree[i]);
-		i++;
-	}
-	if (tofree)
-		free(tofree);
+	uid = getuid();
+	pw = getpwuid(uid);
+	name = ft_strdup(pw->pw_name);
+	return (name);
 }
 
-void	free_lst(t_list *lst)
+void	print_prompt(int mode)
 {
-	t_list	*tmp;
-	t_list	*tmp2;
+	char	*user;
 
-	tmp = lst;
-	while (tmp)
+	user = NULL;
+	if (!mode)
 	{
-		tmp2 = tmp->next;
-		ft_memdel((void**)&tmp->content);
-		ft_memdel((void**)&tmp);
-		tmp = tmp2;
+		user = get_user();
+		ft_printf("\033[35m$%s> \033[0m", user);
+		ft_strdel(&user);
 	}
+	if (mode == 1)
+		ft_putstr("\033[35mquote> \033[0m");
+	if (mode == 2)
+		ft_putstr("\033[35mdquote> \033[0m");
+	if (mode == 3)
+		ft_putstr("\033[35m> \033[0m");
 }

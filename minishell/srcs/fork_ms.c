@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/11 13:14:12 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/25 14:10:06 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/07 18:05:30 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,7 +26,8 @@ int			fork_ms(char *cmd, char **args)
 	else if (pid > 0)
 	{
 		wait(NULL);
-		ft_strdel(&cmd);
+		if (cmd[0] != '/')
+			ft_strdel(&cmd);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/02 15:25:09 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/04 17:29:29 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/08 18:07:36 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,7 +24,7 @@ char	**split_nulls(char *s, int len)
 	i = 0;
 	j = 0;
 	count = ft_wordcount_ms(s, len);
-	if (!s || !(args = (char **)malloc(sizeof(char*) * (count + 1))))
+	if (!s || !(args = (char**)malloc(sizeof(char*) * (count + 1))))
 		return (NULL);
 	while (i <= len)
 	{
@@ -53,7 +53,8 @@ char	*trim_double_quote(char *arg, int *quoted, int len)
 	{
 		if (!arg[i])
 			single_toggle(quoted);
-		if (arg[i] == '"' && !*quoted)
+		if ((i == 0 && arg[i] == '"') || (i > 0 && arg[i] == '"'
+					&& !*quoted && arg[i - 1] != '\\'))
 			arg[i] = 0;
 		i++;
 	}
@@ -72,9 +73,11 @@ char	*trim_single_quote(char *arg, int *quoted, int len)
 	i = 0;
 	while (i <= len)
 	{
-		if (arg[i] == '"')
+		if ((i == 0 && arg[i] == '"') || (i > 0 && arg[i] == '"'
+					&& arg[i - 1] != '\\'))
 			double_toggle(quoted);
-		if (arg[i] == 39 && !*quoted)
+		if ((i == 0 && arg[i] == 39) || (i > 0 && arg[i] == 39
+					&& !*quoted && arg[i - 1] != '\\'))
 			arg[i] = 0;
 		i++;
 	}

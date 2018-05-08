@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/01/03 12:04:15 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/17 14:10:44 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/07 16:46:52 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,7 +32,7 @@ char	**ft_strsplit(char const *s, char c)
 	size_t			j;
 
 	count = ft_wordcount(s, c);
-	if (!s || !(output = (char **)malloc(sizeof(char *) * (count + 1))))
+	if (!s || !(output = (char**)malloc(sizeof(char*) * (count + 1))))
 		return (NULL);
 	i = 0;
 	j = 0;

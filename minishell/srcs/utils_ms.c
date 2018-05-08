@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/20 17:40:38 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/04 16:47:03 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/08 18:03:12 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,8 +34,11 @@ char	*end_quote(char *s, char *arg, int *quoted)
 	int		i;
 
 	i = 0;
-	s = str_append(s, "\\");
-	s = str_append(s, "n");
+	if (s[ft_strlen(s) - 1] != '\\')
+	{
+		s = str_append(s, "\\");
+		s = str_append(s, "n");
+	}
 	while (arg[i])
 	{
 		if (arg[i] == '"' && (*quoted == 2 || !*quoted))
@@ -62,7 +65,7 @@ char	*arr_to_str(char **arr)
 	str = NULL;
 	while (arr[++i])
 		len += ft_strlen(arr[i]);
-	if (!(str = malloc(len + 1)))
+	if (!(str = (char*)malloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	i = 0;
 	while (arr[i])
@@ -91,7 +94,7 @@ size_t			ft_wordcount_ms(char *s, int len)
 	size_t	res;
 	int		i;
 
-	i = 0;
+	i = 1;
 	res = 0;
 	while (i <= len)
 	{
@@ -100,4 +103,29 @@ size_t			ft_wordcount_ms(char *s, int len)
 		i++;
 	}
 	return (res);
+}
+
+void	lst_remove(t_list **lst, char *str)
+{
+	t_list	*tmp;
+	t_list	*prev;
+
+	tmp = *lst;
+	if (tmp && ft_strstr(tmp->content, str))
+	{
+		*lst = tmp->next;
+		ft_memdel((void**)&tmp->content);
+		free(tmp);
+		return ;
+	}
+	while (tmp && !ft_strstr(tmp->content, str))
+	{
+		prev = tmp;
+		tmp = tmp->next;
+	}
+	if (!tmp)
+		return ;
+	prev->next = tmp->next;
+	ft_memdel((void**)&tmp->content);
+	free(tmp);
 }

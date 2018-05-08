@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/02 11:42:21 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/04 13:12:45 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/08 17:13:32 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,7 +34,7 @@ static int	verif_path(struct dirent *dp, char **pathes, char **args, int i)
 	return (0);
 }
 
-int			launch_process(char **args, char **pathes, t_list *my_env)
+int			launch_process(char **args, char **pathes, t_list **my_env)
 {
 	struct dirent	*dp;
 	DIR				*dirp;
@@ -43,6 +43,12 @@ int			launch_process(char **args, char **pathes, t_list *my_env)
 	i = 0;
 	if (builtin_ms(my_env, args, pathes) == 1)
 		return (0);
+	if (!access(args[0], X_OK))
+	{
+		fork_ms(args[0], args);
+		return (0);
+	}
+
 	if (pathes)
 		while (pathes[i])
 		{
