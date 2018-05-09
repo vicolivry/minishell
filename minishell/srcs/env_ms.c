@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/08 11:21:15 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/08 15:18:50 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/09 18:26:00 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,11 +21,14 @@ int	env_ms(char **args, t_list *my_env, char **pathes)
 	arg_lst = tab_to_lst(args);
 	tmp = my_env;
 	if (!args[1] && tmp)
+	{
 		while (tmp->next)
 		{
 			ft_printf("%s\n", tmp->content);
 			tmp = tmp->next;
 		}
+		free_lst(arg_lst);
+	}
 	else if (args[1] && !ft_strcmp(args[1], "-i") && !args[2])
 		return (1);
 	else if (args[1] && !ft_strcmp(args[1], "-i") && args[2])
@@ -39,10 +42,7 @@ int	env_ms(char **args, t_list *my_env, char **pathes)
 	}
 	else if (args[1])
 	{
-		tmp = arg_lst->next;
-		ft_memdel((void**)&arg_lst->content);
-		ft_memdel((void**)&arg_lst);
-		arg_lst = tmp;
+		lst_remove(&arg_lst, arg_lst->content);
 		args = lst_to_tab(arg_lst);
 		launch_process(args, pathes, &my_env);
 		free_lst(arg_lst);

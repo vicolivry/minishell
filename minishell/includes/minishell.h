@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/07 15:21:13 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/08 17:08:05 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/09 15:46:06 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -52,5 +52,7 @@ int		env_ms(char **args, t_list *my_env, char **pathes);
 void	free_lst(t_list *lst);
 void	lst_remove(t_list **lst, char *str);
 char	*get_user(void);
+char	*dollar_conv(char *s);
+char	*get_env_value(char *key, t_list *my_env);
 
 #endif

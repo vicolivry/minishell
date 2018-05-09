@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 13:15:55 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/08 13:20:43 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/09 18:48:45 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,7 +16,7 @@
 char	**get_pathes(char **env)
 {
 	int		i;
-//	int		j;
+	//	int		j;
 	char	*str;
 	char	**pathes;
 
@@ -40,16 +40,16 @@ char	**get_pathes(char **env)
 
 static void	exit_ms(char **args, t_list *my_env, char **cmds, char **pathes)
 {
-	cmds = 0;
-			if (args)
-				free_tab(args);
-			if (pathes)
-				free_tab(pathes);
-		/*	if (cmds)
-				free_tab(cmds);*/
-			if (my_env)
-				free_lst(my_env);
-			exit(0);
+	cmds = 0; // a supprimer
+	if (args)
+		free_tab(args);
+	if (pathes)
+		free_tab(pathes);
+	if (cmds)
+		free_tab(cmds);
+	if (my_env)
+		free_lst(my_env);
+	exit(0);
 }
 
 int		main(int argc, const char **argv, char **env)
@@ -69,6 +69,7 @@ int		main(int argc, const char **argv, char **env)
 		print_prompt(0);
 		get_next_line(0, (char**)argv);
 		if (*argv)
+		{
 			cmds = multi_cmd((char*)*argv, (char**)argv);
 		while (*cmds)
 		{
@@ -79,6 +80,7 @@ int		main(int argc, const char **argv, char **env)
 			if (args)
 				free_tab(args);
 			cmds += 1;
+		}
 		}
 	}
 	return (0);

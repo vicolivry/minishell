@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/02 15:25:09 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/08 18:07:36 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/09 13:48:03 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -53,7 +53,12 @@ char	*trim_double_quote(char *arg, int *quoted, int len)
 	{
 		if (!arg[i])
 			single_toggle(quoted);
-		if ((i == 0 && arg[i] == '"') || (i > 0 && arg[i] == '"'
+		if (arg[i] == '\\' && arg[i + 1] == '"')
+		{
+			arg[i] = 0;
+			i++;
+		}
+		else if ((i == 0 && arg[i] == '"') || (i > 0 && arg[i] == '"'
 					&& !*quoted && arg[i - 1] != '\\'))
 			arg[i] = 0;
 		i++;
@@ -76,8 +81,7 @@ char	*trim_single_quote(char *arg, int *quoted, int len)
 		if ((i == 0 && arg[i] == '"') || (i > 0 && arg[i] == '"'
 					&& arg[i - 1] != '\\'))
 			double_toggle(quoted);
-		if ((i == 0 && arg[i] == 39) || (i > 0 && arg[i] == 39
-					&& !*quoted && arg[i - 1] != '\\'))
+		if (arg[i] == 39 && !*quoted)
 			arg[i] = 0;
 		i++;
 	}
@@ -103,4 +107,38 @@ char	*back_slashes_echo(char *s, int i)
 	else if (s[i + 1] == 'b')
 		s[i + 1] = 8;
 	return (s);
+}
+
+char	*dollar_conv(char *s)
+{
+	int		i;
+	int		j;
+	char	**tab;
+	char	**tmp_tab;
+
+	i = 0;
+	tmp_tab = NULL;
+	tab = ft_strsplit(s, ' ');
+	while (tab[i])
+	{
+		if (ft_strchr(tab[i], '$') && ft_strcmp(tab[i], "$"))
+		{
+			j = 0;
+			tmp_tab = ft_strsplit(tab[i], '$');
+			ft_strdel(&tab[i]);
+			if (tmp_tab[j][0] == '$')
+			{
+				ft_strdel(&tmp_tab[j]);
+				tmp_tab[j] = ft_strdup("BLOP");
+			}
+			j++;
+			tab[i] = arr_to_str(tmp_tab);
+			free_tab(tmp_tab);
+		}
+		ft_strdel(&s);
+		s = arr_to_str(tab);
+		free_tab(tab);
+		i++;
+	}
+		return (s);
 }

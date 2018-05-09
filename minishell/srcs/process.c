@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/02 11:42:21 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/08 17:13:32 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/09 17:43:06 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,8 +29,19 @@ static int	verif_path(struct dirent *dp, char **pathes, char **args, int i)
 				return (1);
 			}
 			fork_ms(cmd, args);
+			ft_strdel(&cmd);
 			return (1);
 		}
+	return (0);
+}
+
+static int	abs_path(char *s, char **args)
+{
+	if (!(access(s, X_OK)))
+	{
+		fork_ms(s, args);
+		return (1);
+	}
 	return (0);
 }
 
@@ -43,12 +54,8 @@ int			launch_process(char **args, char **pathes, t_list **my_env)
 	i = 0;
 	if (builtin_ms(my_env, args, pathes) == 1)
 		return (0);
-	if (!access(args[0], X_OK))
-	{
-		fork_ms(args[0], args);
+	if (abs_path(args[0], args))
 		return (0);
-	}
-
 	if (pathes)
 		while (pathes[i])
 		{

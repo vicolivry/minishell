@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/20 17:40:38 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/08 18:03:12 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/09 13:15:10 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -87,45 +87,4 @@ void	toggle_ms(int *quoted, int i, char *s)
 	if (((i == 0 && s[i] == 39) || (i > 0 && s[i] == 39 &&
 					s[i - 1] != '\\')) && *quoted != 2)
 		single_toggle(quoted);
-}
-
-size_t			ft_wordcount_ms(char *s, int len)
-{
-	size_t	res;
-	int		i;
-
-	i = 1;
-	res = 0;
-	while (i <= len)
-	{
-		if (!s[i] && s[i - 1])
-			res++;
-		i++;
-	}
-	return (res);
-}
-
-void	lst_remove(t_list **lst, char *str)
-{
-	t_list	*tmp;
-	t_list	*prev;
-
-	tmp = *lst;
-	if (tmp && ft_strstr(tmp->content, str))
-	{
-		*lst = tmp->next;
-		ft_memdel((void**)&tmp->content);
-		free(tmp);
-		return ;
-	}
-	while (tmp && !ft_strstr(tmp->content, str))
-	{
-		prev = tmp;
-		tmp = tmp->next;
-	}
-	if (!tmp)
-		return ;
-	prev->next = tmp->next;
-	ft_memdel((void**)&tmp->content);
-	free(tmp);
 }
