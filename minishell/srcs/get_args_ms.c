@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/26 18:13:52 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/09 11:56:04 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/15 18:35:29 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,7 +34,8 @@ static char		*space_to_null(char *s, int *quoted, int len)
 	while (i <= len)
 	{
 		toggle_ms(quoted, i, s);
-		if ((s[i] == ' ' || s[i] == '\t') && !*quoted && s[i - 1] != '\\')
+		if ((i == 0 && (s[i] == ' ' || s[i] == '\t')) || (i > 0 && (s[i] == ' '
+						|| s[i] == '\t') && !*quoted && s[i - 1] != '\\'))
 			s[i] = 0;
 		i++;
 	}
@@ -49,6 +50,7 @@ char			*slashed_arg(char *s, size_t len, char **argv, int *quoted)
 		get_next_line(0, argv);
 		s[len - 1] = 0;
 		s = str_append(s, *argv);
+		ft_strdel(argv);
 		toggling(s, quoted, len);
 		len = ft_strlen(s);
 	}
@@ -62,13 +64,13 @@ char			*quoted_arg(char *s, size_t len, char **argv, int *quoted)
 		*quoted == 1 ? print_prompt(1) : print_prompt(2);
 		get_next_line(0, argv);
 		s = end_quote(s, *argv, quoted);
-		ft_strdel(&*argv);
+		ft_strdel(argv);
 		len = ft_strlen(s);
 	}
 	return (s);
 }
 
-char			**get_args(char *s, char **argv)
+char			**get_args(char *s, char **argv, t_list *my_env)
 {
 	char	**args;
 	size_t	i;
@@ -83,11 +85,15 @@ char			**get_args(char *s, char **argv)
 	len = ft_strlen(s);
 	s = slashed_arg(s, len, argv, &quoted);
 	len = ft_strlen(s);
+	s = dollar_conv(s, my_env);
+	len = ft_strlen(s);
 	s = space_to_null(s, &quoted, len);
 	args = split_nulls(s, len);
-	ft_strdel(&s);
 	i = -1;
 	while (args[++i])
+	{
 		args[i] = conv_str(args[i], &quoted, args);
+		ft_printf("AFTER conv args[i] : [%s]\n", args[i]);
+	}
 	return (args);
 }

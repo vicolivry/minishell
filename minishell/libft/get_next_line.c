@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/12/19 14:01:12 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/04/20 12:20:48 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/15 15:44:58 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -75,7 +75,6 @@ int				get_next_line(const int fd, char **line)
 	if (!line || fd < 0 || !(tmp = srch_or_create(fd, &lst)))
 		return (-1);
 	while (ret > 0 && (ft_read_file(tmp, &ret)))
-	{
 		if ((file = ft_strchr(tmp->content, '\n')) != NULL)
 		{
 			*file = '\0';
@@ -84,7 +83,6 @@ int				get_next_line(const int fd, char **line)
 			ft_memmove(tmp->content, file + 1, ft_strlen(file + 1) + 1);
 			return (1);
 		}
-	}
 	ft_strdel(&file);
 	if (ret == 0 && ft_strlen(tmp->content) != 0)
 		return ((ret = last_line(&(*line), &tmp)));

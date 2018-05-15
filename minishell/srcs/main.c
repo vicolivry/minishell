@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 13:15:55 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/09 18:48:45 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/15 17:11:59 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -40,7 +40,6 @@ char	**get_pathes(char **env)
 
 static void	exit_ms(char **args, t_list *my_env, char **cmds, char **pathes)
 {
-	cmds = 0; // a supprimer
 	if (args)
 		free_tab(args);
 	if (pathes)
@@ -58,6 +57,7 @@ int		main(int argc, const char **argv, char **env)
 	char	**args;
 	char	**cmds;
 	t_list	*my_env;
+	int		i;
 
 	my_env = tab_to_lst(env);
 	pathes = get_pathes(env);
@@ -66,21 +66,23 @@ int		main(int argc, const char **argv, char **env)
 	argc = 0;
 	while ("infinite loop")
 	{
+		i = 0;
 		print_prompt(0);
 		get_next_line(0, (char**)argv);
 		if (*argv)
 		{
 			cmds = multi_cmd((char*)*argv, (char**)argv);
-		while (*cmds)
-		{
-			args = get_args(*cmds, (char**)argv);
-			if (!ft_strcmp(args[0], "exit"))
-				exit_ms(args, my_env, cmds, pathes);
-			launch_process(args, pathes, &my_env);
-			if (args)
-				free_tab(args);
-			cmds += 1;
-		}
+			while (cmds[i])
+			{
+				args = get_args(cmds[i], (char**)argv, my_env);
+				if (!ft_strcmp(args[0], "exit"))
+					exit_ms(args, my_env, cmds, pathes);
+				launch_process(args, pathes, &my_env);
+				if (args)
+					free_tab(args);
+				i++;
+			}
+			ft_memdel((void**)&cmds);
 		}
 	}
 	return (0);

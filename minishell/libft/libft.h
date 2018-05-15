@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/01/03 10:35:07 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/03 17:48:14 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/15 12:48:16 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -85,6 +85,7 @@ int					ft_isascii(int c);
 int					ft_isprint(int c);
 int					ft_toupper(int c);
 int					ft_tolower(int c);
+char				*to_upper_str(char *s);
 
 unsigned int		ft_atoui_base(char *str, char *base);
 char				*ft_uitoa_base(uintmax_t n, int base);
@@ -137,6 +138,7 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list				*lst_dup(t_list *lst1);
 t_list				*tab_to_lst(char **tab);
 char				**lst_to_tab(t_list *lst);
+void				free_lst(t_list *lst);
 
 t_format			ft_parse(const char **str, va_list *va);
 intmax_t			d_size(va_list *ap, t_format *fmt);

@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   free_ms.c                                        .::    .:/ .      .::   */
+/*   to_upper_str.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/04/12 14:28:03 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/15 12:48:34 by volivry     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/05/14 14:19:39 by volivry      #+#   ##    ##    #+#       */
+/*   Updated: 2018/05/14 14:30:11 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "./includes/minishell.h"
+#include "./libft.h"
 
-void	free_tab(char **tofree)
+char	*to_upper_str(char *s)
 {
 	int	i;
 
 	i = 0;
-	while (tofree[i])
+	while (s[i])
 	{
-		if (tofree[i])
-			ft_strdel(&tofree[i]);
+		if (ft_islower(s[i]))
+			s[i] -= 32;
 		i++;
 	}
-	if (tofree)
-		free(tofree);
+	return (s);
 }

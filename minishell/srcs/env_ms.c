@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/08 11:21:15 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/09 18:26:00 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/15 14:15:12 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,7 +30,10 @@ int	env_ms(char **args, t_list *my_env, char **pathes)
 		free_lst(arg_lst);
 	}
 	else if (args[1] && !ft_strcmp(args[1], "-i") && !args[2])
+	{
+		free_lst(arg_lst);
 		return (1);
+	}
 	else if (args[1] && !ft_strcmp(args[1], "-i") && args[2])
 	{
 		lst_remove(&arg_lst, "env");
@@ -48,5 +51,7 @@ int	env_ms(char **args, t_list *my_env, char **pathes)
 		free_lst(arg_lst);
 		free_tab(args);
 	}
+	else
+		free_lst(arg_lst);
 	return (1);
 }

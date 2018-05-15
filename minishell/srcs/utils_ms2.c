@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/09 13:14:18 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/09 17:41:17 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/15 17:43:08 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,11 +18,11 @@ size_t	ft_wordcount_ms(char *s, int len)
 	size_t	res;
 	int		i;
 
-	i = 1;
+	i = 0;
 	res = 0;
 	while (i <= len)
 	{
-		if (!s[i] && s[i - 1])
+		if (i > 0 && !s[i] && s[i - 1])
 			res++;
 		i++;
 	}
@@ -65,10 +65,13 @@ char	*get_env_value(char *key, t_list *my_env)
 	tmp = my_env;
 	if (!tmp)
 		tmp = ft_lstnew(NULL, 0);
-	while (!ft_strstr(tmp->content, key))
+	while (tmp->content && !ft_strstr(tmp->content, key))
 		tmp = tmp->next;
-	temp = ft_strchr(tmp->content, '=') + 1;
+	if (tmp->content)
+		temp = ft_strchr(tmp->content, '=') + 1;
 	value = ft_strdup(temp);
+	if (!value)
+		return (NULL);
 	return (value);
 }
 

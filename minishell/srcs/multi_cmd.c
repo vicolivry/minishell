@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/07 10:18:21 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/07 14:02:05 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/14 17:26:39 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,7 +21,8 @@ static char	*sc_to_null(char *s, int *quoted, int len)
 	while (i <= len)
 	{
 		toggle_ms(quoted, i, s);
-		if (s[i] == ';' && !*quoted && s[i - 1] != '\\')
+		if ((i == 0 && s[i] == ';') || (i > 0 && s[i] == ';' && !*quoted &&
+					s[i - 1] != '\\'))
 			s[i] = 0;
 		i++;
 	}
