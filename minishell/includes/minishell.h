@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/02/07 15:21:13 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/15 15:59:51 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/16 18:16:11 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,7 +37,7 @@ char	**split_nulls(char *s, int len);
 size_t	ft_wordcount_ms(char *s, int len);
 char	*trim_double_quote(char *arg, int *quoted, int len);
 char	*trim_single_quote(char *arg, int *quoted, int len);
-char	*conv_str(char *s, int *quoted, char **args);
+char	*conv_str(char *s, int *quoted, char **args, t_list *my_env);
 void	toggle_ms(int *quoted, int i, char *s);
 char	*back_slashes_echo(char *s, int i);
 void	toggling(char *s, int *quoted, int len);

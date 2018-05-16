@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/02 11:42:39 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/15 17:06:21 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/16 18:15:46 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -38,7 +38,7 @@ static char	*convert_ms(char *s, int *quoted, int len, char *cmd)
 	return (s);
 }
 
-char		*conv_str(char *s, int *quoted, char **args)
+char		*conv_str(char *s, int *quoted, char **args, t_list *my_env)
 {
 	int	len;
 
@@ -50,5 +50,6 @@ char		*conv_str(char *s, int *quoted, char **args)
 	s = trim_single_quote(s, quoted, len);
 	*quoted = 0;
 	s = trim_double_quote(s, quoted, len);
+	s = dollar_conv(s, my_env);
 	return (s);
 }

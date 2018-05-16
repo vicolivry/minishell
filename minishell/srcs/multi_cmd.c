@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/07 10:18:21 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/14 17:26:39 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/16 16:50:41 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -37,7 +37,7 @@ char		**multi_cmd(char *s, char **argv)
 
 	quoted = 0;
 	cmds = NULL;
-	len = ft_strlen(s);
+	len = ft_strlen(s) - 1;
 	toggling(s, &quoted, len);
 	s = quoted_arg(s, len, argv, &quoted);
 	len = ft_strlen(s);

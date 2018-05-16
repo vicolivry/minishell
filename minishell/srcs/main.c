@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 13:15:55 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/15 17:11:59 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/16 17:07:35 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -40,12 +40,13 @@ char	**get_pathes(char **env)
 
 static void	exit_ms(char **args, t_list *my_env, char **cmds, char **pathes)
 {
+	cmds = 0; // a supprimer
 	if (args)
 		free_tab(args);
 	if (pathes)
 		free_tab(pathes);
-	if (cmds)
-		free_tab(cmds);
+/*	if (cmds)
+		free_tab(cmds);*/
 	if (my_env)
 		free_lst(my_env);
 	exit(0);
@@ -72,7 +73,7 @@ int		main(int argc, const char **argv, char **env)
 		if (*argv)
 		{
 			cmds = multi_cmd((char*)*argv, (char**)argv);
-			while (cmds[i])
+			while (cmds && cmds[i])
 			{
 				args = get_args(cmds[i], (char**)argv, my_env);
 				if (!ft_strcmp(args[0], "exit"))

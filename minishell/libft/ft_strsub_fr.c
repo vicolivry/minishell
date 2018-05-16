@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   ft_islower.c                                     .::    .:/ .      .::   */
+/*   ft_strsub_fr.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2018/01/03 11:37:13 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/16 12:00:57 by volivry     ###    #+. /#+    ###.fr     */
+/*   Created: 2018/05/16 12:00:31 by volivry      #+#   ##    ##    #+#       */
+/*   Updated: 2018/05/16 12:20:12 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "./libft.h"
 
-int	ft_islower(int c)
+char	*ft_strsub_fr(char const *s, unsigned int start, size_t len)
 {
-	if (c >= 'a' && c <= 'z')
-		return (1);
-	return (0);
+	char			*newstr;
+	unsigned int	i;
+
+	i = 0;
+	if (s == NULL)
+		return (NULL);
+	if (!(newstr = (char*)malloc(sizeof(char) * (len + 1))))
+		return (NULL);
+	while (i < len)
+		newstr[i++] = s[start++];
+	newstr[i] = '\0';
+	ft_strdel((char**)&s);
+	s = ft_strdup(newstr);
+	ft_strdel(&newstr);
+	return ((char*)s);
 }
