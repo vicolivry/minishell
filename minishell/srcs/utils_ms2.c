@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/09 13:14:18 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/15 17:43:08 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/17 14:49:39 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -74,5 +74,3 @@ char	*get_env_value(char *key, t_list *my_env)
 		return (NULL);
 	return (value);
 }
-
-

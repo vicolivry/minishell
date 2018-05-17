@@ -6,7 +6,7 @@
 #    By: volivry <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/10 09:59:28 by volivry           #+#    #+#              #
-#    Updated: 2018/05/16 12:13:38 by volivry     ###    #+. /#+    ###.fr      #
+#    Updated: 2018/05/17 14:31:49 by volivry     ###    #+. /#+    ###.fr      #
 #                                                                              #
 # **************************************************************************** #
 .PHONY: all clean fclean re
@@ -33,7 +33,7 @@ SRC = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c\
 	  type_di.c type_oub.c type_p.c type_ws.c type_s.c type_x.c ft_modify.c \
 	  lenfinder.c ft_parse.c ft_format.c get_next_line.c str_append.c \
 	  lst_dup.c tab_to_lst.c lst_to_tab.c to_upper_str.c free_lst.c \
-	  ft_strsub_fr.c
+	  ft_strsub_fr.c word_length.c
 
 OBJECTS = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/26 18:13:52 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/16 18:15:57 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/17 13:27:40 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -86,8 +86,6 @@ char			**get_args(char *s, char **argv, t_list *my_env)
 	len = ft_strlen(s);
 	s = slashed_arg(s, len, argv, &quoted);
 	len = ft_strlen(s);
-//	s = dollar_conv(s, my_env);
-//	len = ft_strlen(s);
 	s = space_to_null(s, &quoted, len);
 	args = split_nulls(s, len);
 	ft_strdel(&s);

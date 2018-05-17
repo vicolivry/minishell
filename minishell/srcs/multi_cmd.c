@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/07 10:18:21 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/16 16:50:41 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/17 14:46:50 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -29,7 +29,7 @@ static char	*sc_to_null(char *s, int *quoted, int len)
 	return (s);
 }
 
-char		**multi_cmd(char *s, char **argv)
+char		**multi_cmd(char *s, char **argv, int *tab_len)
 {
 	char	**cmds;
 	size_t	len;
@@ -44,7 +44,7 @@ char		**multi_cmd(char *s, char **argv)
 	s = slashed_arg(s, len, argv, &quoted);
 	len = ft_strlen(s);
 	s = sc_to_null(s, &quoted, len);
-	cmds = split_nulls(s, len);
+	cmds = split_nulls(s, len, tab_len);
 	ft_strdel(&s);
 	return (cmds);
 }

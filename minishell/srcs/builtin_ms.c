@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/19 17:24:10 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/08 17:09:12 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/17 14:06:06 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,11 +36,37 @@ static char	*bck_slsh_qte(char *s)
 	return (s);
 }
 
-static int	echo_ms(char **args)
+static char	*tilded(char **args, t_list *my_env)
+{
+	if (args[1] && !args[2] && !ft_strcmp(args[1], "~"))
+	{
+		ft_strdel(&args[1]);
+		args[1] = ft_strdup("$HOME");
+		args[1] = dollar_conv(args[1], my_env);
+	}
+	else if (args[1] && !args[2] && !ft_strcmp(args[1], "~+"))
+	{
+		ft_strdel(&args[1]);
+		args[1] = ft_strdup("$PWD");
+		args[1] = dollar_conv(args[1], my_env);
+	}
+	else if (args[1] && !args[2] && !ft_strcmp(args[1], "~-"))
+	{
+		ft_strdel(&args[1]);
+		args[1] = ft_strdup("$OLDPWD");
+		args[1] = dollar_conv(args[1], my_env);
+	}
+	return (args[1]);
+}
+
+static int	echo_ms(char **args, t_list *my_env)
 {
 	int	i;
 
 	i = 1;
+	if (args[1] && !args[2] && (!ft_strcmp(args[1], "~") ||
+				!ft_strcmp(args[1], "~+") || !ft_strcmp(args[1], "~-")))
+		args[1] = tilded(args, my_env);
 	while (args[i])
 	{
 		args[i] = bck_slsh_qte(args[i]);
@@ -57,7 +83,7 @@ int			builtin_ms(t_list **my_env, char **args, char **pathes)
 {
 	if (args[0])
 	{
-		if (!ft_strcmp(args[0], "env"))
+		if (!ft_strcmp(args[0], "env") || !ft_strcmp(args[0], "/usr/bin/env"))
 		{
 			if (my_env && pathes)
 				return (env_ms(args, *my_env, pathes));
@@ -65,7 +91,7 @@ int			builtin_ms(t_list **my_env, char **args, char **pathes)
 				return (env_ms(args, NULL, NULL));
 		}
 		else if (!ft_strcmp(args[0], "echo"))
-			return (echo_ms(args));
+			return (echo_ms(args, *my_env));
 		else if (!ft_strcmp(args[0], "setenv"))
 			return (setenv_ms(args, my_env));
 		else if (!ft_strcmp(args[0], "unsetenv"))

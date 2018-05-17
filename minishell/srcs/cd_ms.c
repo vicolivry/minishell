@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/08 11:20:32 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/15 18:01:14 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/17 16:21:10 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,23 +27,6 @@ static char	*cd_void(char *str)
 	return (str);
 }
 
-static void	cd_setenv(char *key, char *value, t_list **my_env)
-{
-	t_list	*tmp;
-	char	*str;
-
-	tmp = *my_env;
-	if (!tmp)
-		tmp = ft_lstnew(NULL, 0);
-	str = ft_strjoin(key, "=");
-	while (tmp->next && !ft_strstr(tmp->content, str))
-		tmp = tmp->next;
-	str = str_append(str, value);
-	ft_memdel(&tmp->content);
-	tmp->content = ft_strdup(str);
-	ft_strdel(&str);
-}
-
 static char	*cd_minus(char *str, t_list *my_env)
 {
 	char	*path;
@@ -55,21 +38,24 @@ static char	*cd_minus(char *str, t_list *my_env)
 	return (str);
 }
 
-static void	cd_err(char *str)
-{
-	if (ft_strchr(str, ' '))
-		ft_printf("cd: string not found in pwd: %s\n", str);
-	else
-		ft_printf("cd: no such file or directory: %s\n", str);
-}
-
 static char	*cd_common(char *str, char **args, t_list *my_env)
 {
-	int	i;
+	int		i;
+	char	*tmp;
+	DIR		*dirp;
 
 	i = 1;
+	tmp = NULL;
+	if ((dirp = opendir(args[1])))
+	{
+		closedir(dirp);
+		str = ft_strdup(args[1]);
+		return (str);
+	}
 	ft_strdel(&str);
-	str = get_env_value("PWD", my_env);
+	tmp = get_env_value("PWD", my_env);
+	str = ft_strdup(tmp);
+	ft_strdel(&tmp);
 	str = str_append(str, "/");
 	str = str_append(str, args[1]);
 	while (args[i++])
@@ -77,13 +63,24 @@ static char	*cd_common(char *str, char **args, t_list *my_env)
 	return (str);
 }
 
-int	cd_ms(char **args, t_list **my_env)
+static void	cd_ms2(char *str, t_list **my_env)
 {
-	char	*str;
 	char	*value;
 
-	str = NULL;
 	value = NULL;
+	str = getcwd(str, ft_strlen(str) + 1);
+	value = get_env_value("PWD", *my_env);
+	cd_setenv("OLDPWD", value, my_env);
+	cd_setenv("PWD", str, my_env);
+	ft_strdel(&value);
+	ft_strdel(&str);
+}
+
+int			cd_ms(char **args, t_list **my_env)
+{
+	char	*str;
+
+	str = NULL;
 	if (!*my_env)
 		return (1);
 	if (!args[1] || args[1][0] == '~')
@@ -98,13 +95,6 @@ int	cd_ms(char **args, t_list **my_env)
 	if (chdir(str) == -1)
 		cd_err(str);
 	else
-	{
-		str = getcwd(str, ft_strlen(str) + 1);
-		value = get_env_value("PWD", *my_env);
-		cd_setenv("OLDPWD", value, my_env);
-		cd_setenv("PWD", str, my_env);
-		ft_strdel(&value);
-		ft_strdel(&str);
-	}
+		cd_ms2(str, my_env);
 	return (1);
 }

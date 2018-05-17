@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/02 11:42:21 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/16 17:17:56 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/17 14:06:55 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -73,6 +73,8 @@ int			launch_process(char **args, char **pathes, t_list **my_env)
 {
 	DIR				*dirp;
 
+	if (builtin_ms(my_env, args, pathes) == 1)
+		return (0);
 	if (args)
 	{
 		if (!(dirp = opendir(args[0])))
@@ -80,11 +82,9 @@ int			launch_process(char **args, char **pathes, t_list **my_env)
 			if ((abs_path(args[0], args)))
 				return (0);
 		}
-			else
-				closedir(dirp);
+		else
+			closedir(dirp);
 	}
-	if (builtin_ms(my_env, args, pathes) == 1)
-		return (0);
 	if (pathes)
 		if (browse_pathes(pathes, args))
 			return (0);
