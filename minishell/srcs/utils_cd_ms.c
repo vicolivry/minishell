@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/17 16:12:01 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/17 16:21:53 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/18 17:54:36 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -36,4 +36,30 @@ void	cd_err(char *str)
 		ft_printf("cd: string not found in pwd: %s\n", str);
 	else
 		ft_printf("cd: no such file or directory: %s\n", str);
+	ft_strdel(&str);
+}
+
+char	*cd_void(char *str)
+{
+	char	*usr;
+
+	ft_strdel(&str);
+	usr = NULL;
+	usr = get_user();
+	str = ft_strdup("/Users/");
+	str = str_append(str, usr);
+	chdir(str);
+	ft_strdel(&usr);
+	return (str);
+}
+
+char	*cd_minus(char *str, t_list *my_env)
+{
+	char	*path;
+
+	path = NULL;
+	ft_strdel(&str);
+	str = get_env_value("OLDPWD", my_env);
+	ft_printf("%s\n", str);
+	return (str);
 }

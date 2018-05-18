@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/02 11:42:21 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/17 14:06:55 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/18 17:50:57 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -39,7 +39,7 @@ static int	verif_path(struct dirent *dp, char **pathes, char **args, int i)
 
 static int	abs_path(char *s, char **args)
 {
-	if (!(access(s, X_OK)))
+	if (!(access(s, X_OK)) && ft_strcmp(args[0], "minishell"))
 	{
 		fork_ms(s, args);
 		return (1);
@@ -69,25 +69,8 @@ static int	browse_pathes(char **pathes, char **args)
 	return (0);
 }
 
-int			launch_process(char **args, char **pathes, t_list **my_env)
+static void	cmd_err(char **args, DIR *dirp)
 {
-	DIR				*dirp;
-
-	if (builtin_ms(my_env, args, pathes) == 1)
-		return (0);
-	if (args)
-	{
-		if (!(dirp = opendir(args[0])))
-		{
-			if ((abs_path(args[0], args)))
-				return (0);
-		}
-		else
-			closedir(dirp);
-	}
-	if (pathes)
-		if (browse_pathes(pathes, args))
-			return (0);
 	if ((dirp = opendir(args[0])))
 	{
 		ft_printf("minishell: %s is a directory\n", args[0]);
@@ -95,5 +78,30 @@ int			launch_process(char **args, char **pathes, t_list **my_env)
 	}
 	else
 		ft_printf("minishell: command not found: %s\n", args[0]);
+}
+
+int			launch_process(char **args, char **pathes, t_list **my_env)
+{
+	DIR				*dirp;
+
+	if (args && ft_strcmp(args[0], "./minishell"))
+	{
+		if (builtin_ms(my_env, args, pathes) == 1)
+			return (0);
+		if (args)
+		{
+			if (!(dirp = opendir(args[0])))
+			{
+				if ((abs_path(args[0], args)))
+					return (0);
+			}
+			else
+				closedir(dirp);
+		}
+		if (pathes)
+			if (browse_pathes(pathes, args))
+				return (0);
+		cmd_err(args, dirp);
+	}
 	return (0);
 }

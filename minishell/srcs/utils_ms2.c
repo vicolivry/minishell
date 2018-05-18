@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/09 13:14:18 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/17 14:49:39 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/18 17:51:28 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -73,4 +73,31 @@ char	*get_env_value(char *key, t_list *my_env)
 	if (!value)
 		return (NULL);
 	return (value);
+}
+
+char	**get_pathes(t_list *my_env)
+{
+	t_list	*tmp;
+	char	*str;
+	char	**pathes;
+	int		i;
+
+	tmp = my_env;
+	str = NULL;
+	pathes = NULL;
+	if (!tmp)
+		return (NULL);
+	while (!ft_strstr(tmp->content, "PATH") && tmp->next)
+		tmp = tmp->next;
+	if (!tmp->content)
+		return (NULL);
+	str = ft_strchr(tmp->content, '=') + 1;
+	pathes = ft_strsplit(str, ':');
+	i = 0;
+	while (pathes[i])
+	{
+		pathes[i] = str_append(pathes[i], "/");
+		i++;
+	}
+	return (pathes);
 }

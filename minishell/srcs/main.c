@@ -6,36 +6,12 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 13:15:55 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/17 16:02:17 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/18 16:20:14 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-char		**get_pathes(char **env)
-{
-	int		i;
-	char	*str;
-	char	**pathes;
-
-	i = 0;
-	str = NULL;
-	pathes = NULL;
-	if (!env[0])
-		return (NULL);
-	while (!ft_strstr(env[i], "PATH") && env[i + 1])
-		i++;
-	str = ft_strchr(env[i], '=') + 1;
-	pathes = ft_strsplit(str, ':');
-	i = 0;
-	while (pathes[i])
-	{
-		pathes[i] = str_append(pathes[i], "/");
-		i++;
-	}
-	return (pathes);
-}
 
 static void	exit_ms(char **args, t_list *my_env, char **pathes)
 {
@@ -79,13 +55,16 @@ int			main(int argc, const char **argv, char **env)
 	t_list	*my_env;
 
 	my_env = tab_to_lst(env);
-	pathes = get_pathes(env);
+	pathes = NULL;
 	args = NULL;
 	argc = 0;
 	while ("infinite loop")
 	{
+		if (pathes)
+			free_tab(pathes);
 		print_prompt(0);
 		get_next_line(0, (char**)argv);
+		pathes = get_pathes(my_env);
 		if (*argv)
 			cmds(pathes, args, my_env, (char**)argv);
 	}

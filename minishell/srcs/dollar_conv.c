@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/16 12:10:56 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/17 13:48:17 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/17 18:37:34 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -58,7 +58,9 @@ char		*dollar_conv(char *s, t_list *my_env)
 {
 	char	**tab;
 	int		i;
+	char	*tmp;
 
+	tmp = ft_strdup(s);
 	tab = NULL;
 	i = 0;
 	tab = ft_strsplit(s, ' ');
@@ -67,14 +69,16 @@ char		*dollar_conv(char *s, t_list *my_env)
 	while (tab && tab[i])
 	{
 		tab[i] = find_dollar(tab[i], my_env);
-		s = str_append(s, tab[i]);
+		if (tab[i])
+			s = str_append(s, tab[i]);
 		if (tab[i + 1])
 			s = str_append(s, " ");
 		i++;
 	}
 	s[ft_strlen(s)] = 0;
 	free_tab(tab);
-	if (!s[0])
-		return (NULL);
+	if (!s)
+		s = ft_strdup(tmp);
+	ft_strdel(&tmp);
 	return (s);
 }

@@ -6,35 +6,26 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/08 11:20:32 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/17 16:21:10 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/18 17:59:03 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*cd_void(char *str)
+static char	*abs_path_cd(char **args, char *str)
 {
-	char	*usr;
+	DIR		*dirp;
 
+	if ((dirp = opendir(args[1])))
+	{
+		closedir(dirp);
+		ft_strdel(&str);
+		str = ft_strdup(args[1]);
+		return (str);
+	}
 	ft_strdel(&str);
-	usr = NULL;
-	usr = get_user();
-	str = ft_strdup("/Users/");
-	str = str_append(str, usr);
-	chdir(str);
-	ft_strdel(&usr);
-	return (str);
-}
-
-static char	*cd_minus(char *str, t_list *my_env)
-{
-	char	*path;
-
-	path = NULL;
-	ft_strdel(&str);
-	str = get_env_value("OLDPWD", my_env);
-	ft_printf("%s\n", str);
+	str = ft_strdup(args[1]);
 	return (str);
 }
 
@@ -42,21 +33,17 @@ static char	*cd_common(char *str, char **args, t_list *my_env)
 {
 	int		i;
 	char	*tmp;
-	DIR		*dirp;
 
 	i = 1;
 	tmp = NULL;
-	if ((dirp = opendir(args[1])))
-	{
-		closedir(dirp);
-		str = ft_strdup(args[1]);
-		return (str);
-	}
-	ft_strdel(&str);
+	if (args[1][0] == '/')
+		return (abs_path_cd(args, str));
+	else
+		ft_strdel(&str);
 	tmp = get_env_value("PWD", my_env);
 	str = ft_strdup(tmp);
 	ft_strdel(&tmp);
-	str = str_append(str, "/");
+	str = (str_append(str, "/"));
 	str = str_append(str, args[1]);
 	while (args[i++])
 		str = str_append(str, args[i]);
