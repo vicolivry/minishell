@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/01/03 10:35:07 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/17 14:32:36 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/21 17:21:43 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -167,4 +167,25 @@ int					lenfinder(t_format *fmt, wchar_t *str);
 int					get_next_line(const int fd, char **line);
 char				*str_append(char *s1, char *s2);
 
+
+
+
+typedef struct s_var	t_var;
+
+struct	s_var {
+	char	buffer[BUFF_SIZE_GNL + 1];
+	char	*tmp;
+	char	*endl;
+	int	i;
+	int	r_state;
+};
+
+typedef struct s_fd	t_fd;
+
+struct	s_fd {
+	char	*save;
+	int	fd;
+	int	eof;
+	t_fd	*next;
+};
 #endif

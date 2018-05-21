@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/26 18:13:52 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/17 13:27:40 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/21 14:01:17 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -50,7 +50,8 @@ char			*slashed_arg(char *s, size_t len, char **argv, int *quoted)
 			print_prompt(3);
 			get_next_line(0, argv);
 			s[len - 1] = 0;
-			s = str_append(s, *argv);
+			if (ft_strlen(*argv))
+				s = str_append(s, *argv);
 			ft_strdel(argv);
 			toggling(s, quoted, len);
 			len = ft_strlen(s);

@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/19 17:24:10 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/18 16:15:33 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/21 13:41:23 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,7 +22,7 @@ static char	*bck_slsh_qte(char *s)
 	i = 0;
 	len = ft_strlen(s);
 	tab = NULL;
-	while (s[i])
+	while (i <= len)
 	{
 		if (s[i] == '\\' && (s[i + 1] == '"' || s[i + 1] == 39))
 			s[i] = 0;

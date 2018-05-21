@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/05/08 11:20:32 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/18 17:59:03 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/21 16:27:25 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -68,7 +68,7 @@ int			cd_ms(char **args, t_list **my_env)
 	char	*str;
 
 	str = NULL;
-	if (!*my_env)
+	if (!my_env)
 		return (1);
 	if (!args[1] || args[1][0] == '~')
 	{

@@ -6,7 +6,7 @@
 /*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2018/04/10 13:15:55 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2018/05/18 16:20:14 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2018/05/21 17:48:04 by volivry     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -53,20 +53,22 @@ int			main(int argc, const char **argv, char **env)
 	char	**pathes;
 	char	**args;
 	t_list	*my_env;
+	char	*line;
 
 	my_env = tab_to_lst(env);
 	pathes = NULL;
 	args = NULL;
 	argc = 0;
+	(void)argv;
 	while ("infinite loop")
 	{
 		if (pathes)
 			free_tab(pathes);
 		print_prompt(0);
-		get_next_line(0, (char**)argv);
+		get_next_line(0, &line);
 		pathes = get_pathes(my_env);
-		if (*argv)
-			cmds(pathes, args, my_env, (char**)argv);
+		if (line)
+			cmds(pathes, args, my_env, &line);
 	}
 	return (0);
 }
